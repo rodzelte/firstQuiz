@@ -148,7 +148,6 @@ function showLegend(score) {
     legend = "OK";
   }
   legendElement.textContent = `Your score legend: ${legend}`;
-  legendElement.textContent = `I will be back soon!`;
 }
 
 showQuestion();
