@@ -31,7 +31,7 @@ const questions = [
     question: "What is a Orange?",
     answers: ["Color", "Fruit"],
     correctAnswer: "Color",
-    correctAnswer: "Fruit"
+    correctAnswer: "Fruit",
   },
 
   {
@@ -44,8 +44,8 @@ const questions = [
   {
     question:
       "Is the following statement true or false? 'This statement is false.",
-    answers: ["True", "False"],
-    correctAnswer: ""
+    answers: ["True", "False", "..."],
+    correctAnswer:"...",
   },
 
   {
@@ -69,6 +69,7 @@ const questions = [
 const questionElement = document.getElementById('question');
 const answersElement = document.getElementById('answers');
 const resultElement = document.getElementById('result');
+const legendElement = document.getElementById('legend');
 
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
@@ -100,6 +101,11 @@ function showQuestion() {
 
 function checkAnswer(selectedAnswer) {
   const currentQuestion = questions[currentQuestionIndex];
+  const answerButtons = document.querySelectorAll('.ans-btn button');
+  answerButtons.forEach(button => {
+    button.disabled = true; // Disable all answer buttons
+  });
+
   if (selectedAnswer === currentQuestion.correctAnswer) {
     resultElement.textContent = "Correct!";
     resultElement.style.color = "green";
@@ -111,14 +117,37 @@ function checkAnswer(selectedAnswer) {
   }
   currentQuestionIndex++;
   if (currentQuestionIndex < questions.length) {
-    setTimeout(showQuestion, 1000); // Move to next question after 1 second
+    setTimeout(() => {
+      showQuestion();
+      answerButtons.forEach(button => {
+        button.disabled = false; // Re-enable answer buttons for next question
+      });
+      resultElement.textContent = ""; // Clear result message
+    }, 2000); // Move to next question after 2 seconds
   } else {
     setTimeout(() => {
       questionElement.textContent = "Quiz completed!";
       answersElement.innerHTML = "";
       resultElement.textContent = `Correct Answers: ${correctAnswers}, Incorrect Answers: ${incorrectAnswers}`;
-    }, 1000);
+      showLegend(correctAnswers);
+    }, 2000);
   }
+}
+
+function showLegend(score) {
+  let legend;
+  if (score >= 0 && score <= 3) {
+    legend = "Not close";
+  } else if (score >= 4 && score <= 5) {
+    legend = "Close";
+  } else if (score >= 6 && score <= 7) {
+    legend = "So close";
+  } else if (score >= 8 && score <= 9) {
+    legend = "Friend";
+  } else if (score === 10) {
+    legend = "OK";
+  }
+  legendElement.textContent = `Your score legend: ${legend}`;
 }
 
 showQuestion();
