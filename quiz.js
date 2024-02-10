@@ -29,7 +29,7 @@ const questions = [
 
   {
     question: "What is a Orange?",
-    answers: ["Color", "Fruit"],
+    answers: ["Color","Fruit"],
     correctAnswer: "Color",
     correctAnswer: "Fruit",
   },
@@ -148,6 +148,7 @@ function showLegend(score) {
     legend = "OK";
   }
   legendElement.textContent = `Your score legend: ${legend}`;
+  legendElement.textContent = `I will be back soon!`;
 }
 
 showQuestion();
